@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState, type FormEvent, type ReactNode } from "react";
 
 type IconName =
@@ -285,7 +286,7 @@ export default function Home() {
         <div className="header-inner">
           <Brand />
           <nav className="nav-links" aria-label="Main navigation">
-            <a href="#stays">Explore PGs</a>
+            <Link href="/pgs">Explore PGs</Link>
             <a href="#services">Services</a>
             <a href="#about">About</a>
           </nav>
