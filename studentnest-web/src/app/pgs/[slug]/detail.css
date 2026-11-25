@@ -807,6 +807,10 @@
   gap: 9px;
 }
 
+.pgd-contactActions form {
+  margin: 0;
+}
+
 .pgd-contactActions button,
 .pgd-contactActions a {
   display: flex;
@@ -836,6 +840,10 @@
   background: #a8b8ae;
   color: #f8faf8;
   cursor: not-allowed;
+}
+
+.pgd-contactActions form button {
+  width: 100%;
 }
 
 .pgd-whatsappButton {

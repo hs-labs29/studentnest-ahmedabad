@@ -158,6 +158,33 @@ summary:focus-visible {
   background: #f5faf7;
 }
 
+.header-actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 8px;
+}
+
+.signup-link {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 15px;
+  border: 1px solid #167a59;
+  border-radius: 8px;
+  background: #167a59;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 680;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+
+.signup-link:hover {
+  border-color: #116348;
+  background: #116348;
+}
+
 .hero-section {
   position: relative;
   padding: 76px 0 0;
@@ -1338,6 +1365,16 @@ summary:focus-visible {
     min-height: 35px;
     padding-inline: 11px;
     font-size: 11px;
+  }
+
+  .header-actions {
+    gap: 6px;
+  }
+
+  .signup-link {
+    min-height: 35px;
+    padding-inline: 11px;
+    font-size: 10px;
   }
 
   .nav-links {

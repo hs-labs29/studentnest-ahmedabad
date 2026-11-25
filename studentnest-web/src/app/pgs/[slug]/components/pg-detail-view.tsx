@@ -41,9 +41,11 @@ function isIncluded(
 export default function PgDetailView({
   pg,
   details,
+  initialSaved,
 }: {
   pg: SamplePg;
   details: SamplePgDetails;
+  initialSaved: boolean;
 }) {
   const photos: SamplePhoto[] = [
     {
@@ -314,9 +316,11 @@ export default function PgDetailView({
                 <strong>₹{details.securityDeposit.toLocaleString("en-IN")}</strong>
               </div>
               <ContactActions
+                pgSlug={pg.id}
                 listingName={details.name}
                 locality={pg.locality}
                 monthlyRent={pg.monthlyRent}
+                initialSaved={initialSaved}
               />
             </div>
             <div className="pgd-sideNote">

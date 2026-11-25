@@ -10,10 +10,15 @@ import {
   type AccommodationType,
   type Amenity,
 } from "./data/sample-pgs";
+import type { PgDirectoryItem, PublishedPgCard } from "./data/pg-types";
 
 type SortOrder = "price-asc" | "price-desc";
 
-export default function PgExplorer() {
+export default function PgExplorer({
+  publishedPgs = [],
+}: {
+  publishedPgs?: PublishedPgCard[];
+}) {
   const [locality, setLocality] = useState("");
   const [minRent, setMinRent] = useState("");
   const [maxRent, setMaxRent] = useState("");
@@ -23,11 +28,28 @@ export default function PgExplorer() {
   const [amenities, setAmenities] = useState<Amenity[]>([]);
   const [sortOrder, setSortOrder] = useState<SortOrder>("price-asc");
 
+  const allPgs = useMemo<PgDirectoryItem[]>(
+    () => [
+      ...SAMPLE_PGS.map((pg) => ({
+        ...pg,
+        name: `Sample PG · ${pg.id.slice(-2)}`,
+        href: `/pgs/${pg.id}`,
+        isSample: true,
+      })),
+      ...publishedPgs.map((pg) => ({
+        ...pg,
+        href: `/pgs/listings/${pg.id}`,
+        isSample: false,
+      })),
+    ],
+    [publishedPgs],
+  );
+
   const filteredPgs = useMemo(() => {
     const min = minRent === "" ? undefined : Number(minRent);
     const max = maxRent === "" ? undefined : Number(maxRent);
 
-    return SAMPLE_PGS.filter((pg) => {
+    return allPgs.filter((pg) => {
       const matchesLocality = !locality || pg.locality === locality;
       const matchesMin = min === undefined || pg.monthlyRent >= min;
       const matchesMax = max === undefined || pg.monthlyRent <= max;
@@ -50,7 +72,15 @@ export default function PgExplorer() {
         ? first.monthlyRent - second.monthlyRent
         : second.monthlyRent - first.monthlyRent,
     );
-  }, [accommodationTypes, amenities, locality, maxRent, minRent, sortOrder]);
+  }, [
+    accommodationTypes,
+    allPgs,
+    amenities,
+    locality,
+    maxRent,
+    minRent,
+    sortOrder,
+  ]);
 
   const hasFilters =
     Boolean(locality || minRent || maxRent) ||
@@ -139,9 +169,8 @@ export default function PgExplorer() {
                 budget, choose what matters, and see what fits.
               </p>
               <p className="pgs-sampleNotice">
-                <strong>Sample experience.</strong> Listings, rents, facilities,
-                and photos are illustrative only—not real properties or live
-                availability.
+                <strong>Sample stays are illustrative.</strong> Owner listings
+                appear only after administrator approval and owner publication.
               </p>
             </div>
             <div
@@ -158,16 +187,16 @@ export default function PgExplorer() {
           <div className="pgs-resultsHeading">
             <div>
               <p className="pgs-eyebrow">MADE FOR STUDENT LIFE</p>
-              <h2 id="results-heading">Explore sample PG stays</h2>
+              <h2 id="results-heading">Explore Ahmedabad PG stays</h2>
               <p className="pgs-resultsCount" aria-live="polite">
-                {filteredPgs.length} sample{" "}
+                {filteredPgs.length}{" "}
                 {filteredPgs.length === 1 ? "stay" : "stays"} to explore
               </p>
             </div>
             <label className="pgs-sortControl">
               <span>Sort by</span>
               <select
-                aria-label="Sort sample PGs by rent"
+                aria-label="Sort PGs by rent"
                 value={sortOrder}
                 onChange={(event) => {
                   const value = event.target.value;
@@ -220,7 +249,7 @@ export default function PgExplorer() {
                     <path d="m20 20-4-4" />
                   </svg>
                 </span>
-                <h3>No sample stays match those filters.</h3>
+                <h3>No stays match those filters.</h3>
                 <p>Try widening your rent range or removing a filter.</p>
                 <button type="button" onClick={clearAll}>
                   Clear all filters
@@ -237,8 +266,8 @@ export default function PgExplorer() {
             StudentNest <span>Ahmedabad</span>
           </Link>
           <p>
-            Sample data for preview only. Properties, prices, amenities, and
-            photographs are not verified; no availability is represented.
+            Sample stays are illustrative only. Owner listings are shown only
+            after administrator approval and owner publication.
           </p>
           <span>Made with care for students finding their way.</span>
         </div>

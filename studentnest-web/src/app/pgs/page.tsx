@@ -1,12 +1,23 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import PgExplorer from "./pg-explorer";
+import { getPublishedPgCards } from "@/lib/owner/listings";
 
 export const metadata: Metadata = {
-  title: "Explore Sample PGs | StudentNest Ahmedabad",
+  title: "Explore PGs | StudentNest Ahmedabad",
   description:
-    "Explore illustrative PG options by Ahmedabad locality, rent, accommodation type, and amenities.",
+    "Explore sample and approved PG options by Ahmedabad locality, rent, accommodation type, and amenities.",
 };
 
 export default function PgsPage() {
-  return <PgExplorer />;
+  return (
+    <Suspense fallback={<PgExplorer />}>
+      <PublishedListings />
+    </Suspense>
+  );
+}
+
+async function PublishedListings() {
+  const publishedPgs = await getPublishedPgCards();
+  return <PgExplorer publishedPgs={publishedPgs} />;
 }

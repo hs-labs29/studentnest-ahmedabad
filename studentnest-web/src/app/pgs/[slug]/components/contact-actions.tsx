@@ -1,21 +1,22 @@
-"use client";
-
-import { useState } from "react";
+import { toggleSavedPgAction } from "@/lib/auth/actions";
 
 interface ContactActionsProps {
+  pgSlug: string;
   listingName: string;
   locality: string;
   monthlyRent: number;
+  initialSaved: boolean;
   verifiedOwnerPhone?: string;
 }
 
 export default function ContactActions({
+  pgSlug,
   listingName,
   locality,
   monthlyRent,
+  initialSaved,
   verifiedOwnerPhone,
 }: ContactActionsProps) {
-  const [saved, setSaved] = useState(false);
   const phone = verifiedOwnerPhone?.replace(/\D/g, "");
   const enquiryText = `Hello, I'm enquiring about ${listingName} in ${locality}, Ahmedabad. Could you share verified details?`;
   const whatsappHref = phone
@@ -25,16 +26,25 @@ export default function ContactActions({
   return (
     <>
       <div className="pgd-contactActions">
-        <button
-          className={`pgd-favouriteButton${saved ? " is-saved" : ""}`}
-          type="button"
-          aria-pressed={saved}
-          aria-label={saved ? "Remove from favourites" : "Save to favourites"}
-          onClick={() => setSaved((current) => !current)}
-        >
-          <span aria-hidden="true">{saved ? "♥" : "♡"}</span>
-          {saved ? "Saved to favourites" : "Save to favourites"}
-        </button>
+        <form action={toggleSavedPgAction}>
+          <input type="hidden" name="pgSlug" value={pgSlug} />
+          <input
+            type="hidden"
+            name="intent"
+            value={initialSaved ? "remove" : "save"}
+          />
+          <button
+            className={`pgd-favouriteButton${initialSaved ? " is-saved" : ""}`}
+            type="submit"
+            aria-pressed={initialSaved}
+            aria-label={
+              initialSaved ? "Remove from favourites" : "Save to favourites"
+            }
+          >
+            <span aria-hidden="true">{initialSaved ? "♥" : "♡"}</span>
+            {initialSaved ? "Saved to favourites" : "Save to favourites"}
+          </button>
+        </form>
         {phone ? (
           <a className="pgd-contactButton" href={`tel:${phone}`}>
             Contact owner

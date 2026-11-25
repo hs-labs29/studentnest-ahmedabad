@@ -290,9 +290,14 @@ export default function Home() {
             <a href="#services">Services</a>
             <a href="#about">About</a>
           </nav>
-          <a className="login-link" href="#contact">
-            Log in <Icon name="arrow" size={15} />
-          </a>
+          <div className="header-actions">
+            <Link className="login-link" href="/login">
+              Log in <Icon name="arrow" size={15} />
+            </Link>
+            <Link className="signup-link" href="/signup">
+              Sign up
+            </Link>
+          </div>
         </div>
       </header>
 
