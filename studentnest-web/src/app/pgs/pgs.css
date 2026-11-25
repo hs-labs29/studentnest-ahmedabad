@@ -438,14 +438,22 @@
 }
 
 .pgs-card {
+  display: block;
   overflow: hidden;
   border: 1px solid #e9ede9;
   border-radius: 12px;
   background: #fff;
+  color: inherit;
   box-shadow: 0 7px 22px rgba(40, 58, 47, 0.035);
+  text-decoration: none;
   transition:
     transform 180ms ease,
     box-shadow 180ms ease;
+}
+
+.pgs-card:focus-visible {
+  outline: 3px solid #167a59;
+  outline-offset: 3px;
 }
 
 .pgs-card:hover {

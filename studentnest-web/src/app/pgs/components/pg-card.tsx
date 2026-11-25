@@ -1,8 +1,13 @@
+import Link from "next/link";
 import type { SamplePg } from "../data/sample-pgs";
 
 export default function PgCard({ pg }: { pg: SamplePg }) {
   return (
-    <article className="pgs-card">
+    <Link
+      className="pgs-card"
+      href={`/pgs/${pg.id}`}
+      aria-label={`View sample PG in ${pg.locality}, Ahmedabad`}
+    >
       <div
         className="pgs-cardPhoto"
         role="img"
@@ -36,6 +41,6 @@ export default function PgCard({ pg }: { pg: SamplePg }) {
           <span className="pgs-demoLabel">Demo listing</span>
         </div>
       </div>
-    </article>
+    </Link>
   );
 }
